@@ -1,0 +1,23 @@
+services:
+  nginx:
+    image: nginx
+    deploy:
+      replicas: 3
+      placement:
+        constraints: [node.role != manager]
+    depends_on:
+      - api
+    networks:
+      - bootnet
+  api:
+    #image: registry:5000/greeting:1.0
+    image: registry:5000/greeting:0.1
+    deploy:
+      replicas: 3
+      placement:
+        constraints: [node.role != manager]
+    networks:
+      - bootnet
+networks:
+  bootnet:
+    external: true
